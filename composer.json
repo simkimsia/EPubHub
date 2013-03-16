@@ -1,5 +1,5 @@
 {
-    "name": "simkimsia/epubhub",
+    "name": "epubhub/epubhub",
     "type": "library",
     "require": {
         "composer/installers": "~1.0"
