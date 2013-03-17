@@ -15,7 +15,7 @@
  * @package    epubhub
  * @author     KimSia Sim<kimsia@storyzer.com>
  */
-class EPubHub_Page_FixedLayout implements EPubHub_Page
+class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
 {
     protected $image      = '';
     protected $folderPath = '';

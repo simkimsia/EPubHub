@@ -68,4 +68,5 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
             $this->pages = ArrayLib::insert($this->pages, $addAtIndex, $page);
         }
     }
+
 }

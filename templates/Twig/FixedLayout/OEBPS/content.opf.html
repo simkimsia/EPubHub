@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="book-id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+        {% set metadata = epub.getMetadata %}
+        <dc:title>{{ metadata.title }}</dc:title>
+        <dc:creator>{{ metadata.creator }}</dc:creator>
+        <dc:publisher>{{ metadata.publisher }}</dc:publisher>
+        <dc:date>{{ metadata.date }}</dc:date>
+        <dc:language>{{ metadata.language }}</dc:language>
+        <dc:identifier id="book-id">dsds</dc:identifier>
+        <meta content="img-cov" name="cover"/>
+    </metadata>
+    <manifest>
+        <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+        <item href="Styles/styles.css" id="css" media-type="text/css"/>
+
+    {% for page in pages %}
+        {# pagenumber gives us 001, 002, etc #}
+        {% set pagenumber =  '00' ~ loop.index  %}
+        {# pagename gives us page001.xhtml, etc #}
+        {% set pagename = 'page' ~ pagenumber ~ '.xhtml' %}
+        {# pagepath gives us Text/page001.xhtml, etc #}
+        {% set pagepath = 'Text/' ~ pagename %}
+        {# pageitemid gives us pg001, etc #}
+        {% set pageitemid = 'pg' ~ pagenumber %}
+        {# image gives us Page1.jpg, etc #}
+        {% set image = page.image %}
+        {# imagepath gives us Images/Page1.jpg, etc #}
+        {% set imagepath = 'Images/' ~ image %}
+        {# imageitemid gives us pg001-image, etc #}
+        {% set imageitemid = pageitemid ~ '-image' %}
+
+        <item href="{{ pagepath  }}" id="{{ pageitemid }}" media-type="application/xhtml+xml"/>
+        <item href="{{ imagepath }}" id="{{ imageitemid }}" media-type="{{ image.mimeType }}"/>
+
+    {% endfor %}
+    <!--
+        <item href="Images/PAGE1.jpg" id="page01-image" media-type="image/jpeg"/>
+        <item href="Images/PAGE1-intl.jpg" id="page01-intl-image" media-type="image/jpeg"/>
+        <item href="Images/PAGE2.jpg" id="page02-image" media-type="image/jpeg"/>
+        <item href="Images/PAGE2-intl.jpg" id="page02-intl-image" media-type="image/jpeg"/>
+
+        <item href="Images/BACK COVER.jpg" id="bc-image" media-type="image/jpeg"/>
+
+        <item href="Images/BACK OF BACK COVER.jpg" id="bobc-image" media-type="image/jpeg"/>
+
+    -->
+        <item href="Images/FRONT COVER.jpg" id="img-cov" media-type="image/jpeg"/>
+        <item href="Images/BACK OF FRONT COVER.jpg" id="bofc-image" media-type="image/jpeg"/>
+    </manifest>
+    <spine toc="ncx">
+        <itemref idref="pg001"/>
+        <itemref idref="pg002"/>
+    </spine>
+    <guide>
+        <reference href="Text/page001.xhtml" type="cover"/>
+        <reference href="Text/page002.xhtml" type="text"/>
+    </guide>
+</package>

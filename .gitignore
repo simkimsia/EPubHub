@@ -1,2 +1,11 @@
+# ignore all these files
 *DS_Store
 *sublime*
+build/*
+source/*
+templates/Twig/FixedLayout/OEBPS/Images/*
+
+# except these files
+!templates/Twig/FixedLayout/OEBPS/Images/empty
+!source/empty
+!build/empty
