@@ -109,6 +109,7 @@ class EPubHub_ZippingLibrary_ZipLib implements EPubHub_ZippingLibraryInterface
         $metadata = $this->book->getMetadata();
         $title = $metadata['title'];
         $filename = $title . '.epub';
+
         $options = array(
             'destination' => $buildFilesPath . '/' . $filename,
             'include_dir' => false,
