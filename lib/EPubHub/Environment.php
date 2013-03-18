@@ -283,7 +283,7 @@ class EPubHub_Environment
         {
             $sourceFilesPath  = $this->getBookSourceFilesPath();
         }
-        $this->renderingLibrary->renderBook($sourceFilesPath);
+        return $this->renderingLibrary->renderBook($sourceFilesPath);
     }
 
     public function zipRendered($sourceFilesPath = '', $buildFilesPath = '')
@@ -297,13 +297,13 @@ class EPubHub_Environment
         {
             $buildFilesPath  = $this->getBookBuildFilesPath();
         }
-        $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
+        return $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
     }
 
     public function makeEPub(EPubHub_BookInterface $book = null, $buildFilesPath = '')
     {
         $this->renderBook($book);
-        $this->zipRendered('', $buildFilesPath);
+        return $this->zipRendered('', $buildFilesPath);
     }
 
 }
