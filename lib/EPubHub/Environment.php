@@ -25,7 +25,7 @@ class EPubHub_Environment
     protected $tests;
     protected $renderingLibrary = null;
     protected $zippingLibrary = null;
-    protected $book;
+    protected $book = null;
 
     /**
      * Constructor.
@@ -104,6 +104,66 @@ class EPubHub_Environment
     }
 
     /**
+     *
+     * Determine the absolute path to send the source files to.
+     *
+     * @param string $path
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When path does not exist or is not writable.
+     */
+    public function setSrcFilesPath($path)
+    {
+        // validate if path exists
+        // validate if path not writable
+        $this->srcFilesPath = $path;
+    }
+
+    /**
+     *
+     * Return the absolute path to send the source files to.
+     *
+     * @return string $path
+     *
+     * @throws EPubHub_Error_EPub When path is not set.
+     */
+    public function getSrcFilesPath()
+    {
+        // validate not empty string
+        return $this->srcFilesPath;
+    }
+
+    /**
+     *
+     * Determine the absolute path to send the .epub files to.
+     *
+     * @param string $path
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When path does not exist or is not writable.
+     */
+    public function setBuildFilesPath($path)
+    {
+        // validate if path exists
+        // validate if path not writable
+        $this->buildFilesPath = $path;
+    }
+
+    /**
+     *
+     * Return the absolute path to send the .epub files to.
+     *
+     * @return string $path
+     *
+     * @throws EPubHub_Error_EPub When path is not set.
+     */
+    public function getBuildFilesPath()
+    {
+        // validate not empty string
+        return $this->buildFilesPath;
+    }
+
+    /**
      * Enables debugging mode.
      */
     public function enableDebug()
@@ -158,10 +218,58 @@ class EPubHub_Environment
     public function setBook(EPubHub_BookInterface $book = null)
     {
         $this->book = $book;
+
+        // set the rendering library to use the book
         if ($this->renderingLibrary !== null)
         {
             $this->renderingLibrary->setBook($book);
         }
+
+        // get the path to the source files
+        $sourceFilesPath = $this->getBookSourceFilesPath();
+
+        // ensure the directory is there before rendering
+        if (!file_exists($sourceFilesPath))
+        {
+            mkdir($sourceFilesPath);
+        }
+
+        // set the zipping library to use the book
+        if ($this->zippingLibrary !== null)
+        {
+            $this->zippingLibrary->setBook($book);
+        }
+
+        // get the path to the build file
+        $buildFilesPath = $this->getBookBuildFilesPath();
+
+        // ensure the directory is there before packing the source files
+        if (!file_exists($buildFilesPath))
+        {
+            mkdir($buildFilesPath);
+        }
+    }
+
+    public function getBookSourceFilesPath(EPubHub_BookInterface $book = null)
+    {
+        if ($book instanceof EPubHub_BookInterface)
+        {
+            $this->book = $book;
+        }
+        $metadata        = $this->book->getMetadata();
+        $bookId          = $metadata['book_id'];
+        return $this->srcFilesPath . '/' . $bookId;
+    }
+
+    public function getBookBuildFilesPath(EPubHub_BookInterface $book = null)
+    {
+        if ($book instanceof EPubHub_BookInterface)
+        {
+            $this->book = $book;
+        }
+        $metadata        = $this->book->getMetadata();
+        $bookId          = $metadata['book_id'];
+        return $this->buildFilesPath . '/' . $bookId;
     }
 
     public function renderBook(EPubHub_BookInterface $book = null, $sourceFilesPath = '')
@@ -171,8 +279,25 @@ class EPubHub_Environment
             $this->setBook($book);
         }
 
+        if ($sourceFilesPath === '')
+        {
+            $sourceFilesPath  = $this->getBookSourceFilesPath();
+        }
         $this->renderingLibrary->renderBook($sourceFilesPath);
+    }
 
+    public function zipRendered($sourceFilesPath = '', $buildFilesPath = '')
+    {
+        if ($sourceFilesPath === '' && file_exists($this->sourceFilesPath) && $this->book != null)
+        {
+            $sourceFilesPath  = $this->getBookSourceFilesPath();
+        }
+
+        if ($buildFilesPath === '' && file_exists($this->buildFilesPath) && $this->book != null)
+        {
+            $buildFilesPath  = $this->getBookBuildFilesPath();
+        }
+        $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
     }
 
 }

@@ -24,7 +24,6 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     protected $twigLibraryPath = '';
     protected $twigTemplatesPath = '';
     protected $twigBookTypeTemplatePath = '';
-    protected $srcFolderPath = ''; // default location of folder for rendering 
 
     /**
      *
@@ -45,9 +44,6 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         // define the exact template path
         $this->twigTemplatesPath = $rootDir . '/templates/Twig';
         $this->updateTemplatePath();
-
-        // define a default source folder path
-        $this->srcFolderPath = $rootDir . '/source';
 
         // define the path to the Twig library
         $this->twigLibraryPath = $twigLibraryPath;
@@ -72,35 +68,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
             'debug' => $debug,
         ));
     }
-    /**
-     *
-     * Determine the absolute path to send the source files to.
-     *
-     * @param string $path
-     * @return void
-     *
-     * @throws EPubHub_Error_EPub When path does not exist or is not writable.
-     */
-    public function setSrcFolderPath($path)
-    {
-        // validate if path exists
-        // validate if path not writable
-        $this->srcFolderPath = $path;
-    }
-
-    /**
-     *
-     * Return the absolute path to send the source files to.
-     *
-     * @return string $path
-     *
-     * @throws EPubHub_Error_EPub When path is not set.
-     */
-    public function getSrcFolderPath()
-    {
-        // validate not empty string
-        return $this->srcFolderPath;
-    }
+    
 
     /**
      *
@@ -138,8 +106,9 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      *
      * @throws EPubHub_Error_EPub When $book fails validation
      */
-    public function setBook(EPubHub_BookInterface $book)
+    public function setBook(EPubHub_BookInterface &$book)
     {
+        $book->setSource
         // validate book has the standard stuff like content.opf etc
         $this->book = $book;
         $this->updateTemplatePath();
@@ -163,19 +132,6 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderOpf($sourceFilesPath = '')
     {
-        if ($sourceFilesPath === '')
-        {
-            $metadata        =  $this->book->getMetadata();
-            $bookId          = $metadata['book_id'];
-            $sourceFilesPath = $this->srcFolderPath . '/' . $bookId;
-        }
-
-        // ensure the directory is there before rendering
-        if (!file_exists($sourceFilesPath))
-        {
-            mkdir($sourceFilesPath);
-        }
-
         // select file to render
         $fileToRender = 'content.opf';
         // render using Twig
