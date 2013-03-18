@@ -20,7 +20,7 @@ class EPubHub_Environment
     const VERSION = '0.1.1';
 
     protected $debug;
-    protected $srcFilesPath;
+    protected $sourceFilesPath;
     protected $buildFilesPath;
     protected $tests;
     protected $renderingLibrary = null;
@@ -45,17 +45,17 @@ class EPubHub_Environment
     public function __construct($renderingLibrary = null, $zippingLibrary, $options = array())
     {
         $rootDir = realpath(dirname(dirname(dirname(__FILE__))));
-        $defaultSrcPath = $rootDir . '/' . 'source';
+        $defaultSourcePath = $rootDir . '/' . 'source';
         $defaultBuildPath = $rootDir. '/' . 'build';
 
         $options = array_merge(array(
             'debug'             => false,
-            'src_files_path'    => $defaultSrcPath,
+            'src_files_path'    => $defaultSourcePath,
             'build_files_path'  => $defaultBuildPath,
         ), $options);
 
         $this->debug          = (bool) $options['debug'];
-        $this->srcFilesPath   = $options['src_files_path'];
+        $this->sourceFilesPath   = $options['src_files_path'];
         $this->buildFilesPath = $options['build_files_path'];
 
         $this->renderingLibrary = $renderingLibrary;
@@ -112,11 +112,11 @@ class EPubHub_Environment
      *
      * @throws EPubHub_Error_EPub When path does not exist or is not writable.
      */
-    public function setSrcFilesPath($path)
+    public function setSourceFilesPath($path)
     {
         // validate if path exists
         // validate if path not writable
-        $this->srcFilesPath = $path;
+        $this->sourceFilesPath = $path;
     }
 
     /**
@@ -127,10 +127,10 @@ class EPubHub_Environment
      *
      * @throws EPubHub_Error_EPub When path is not set.
      */
-    public function getSrcFilesPath()
+    public function getSourceFilesPath()
     {
         // validate not empty string
-        return $this->srcFilesPath;
+        return $this->sourceFilesPath;
     }
 
     /**
@@ -258,7 +258,7 @@ class EPubHub_Environment
         }
         $metadata        = $this->book->getMetadata();
         $bookId          = $metadata['book_id'];
-        return $this->srcFilesPath . '/' . $bookId;
+        return $this->sourceFilesPath . '/' . $bookId;
     }
 
     public function getBookBuildFilesPath(EPubHub_BookInterface $book = null)
@@ -283,7 +283,7 @@ class EPubHub_Environment
         {
             $sourceFilesPath  = $this->getBookSourceFilesPath();
         }
-        return $this->renderingLibrary->renderBook($sourceFilesPath);
+        $this->renderingLibrary->renderBook($sourceFilesPath);
     }
 
     public function zipRendered($sourceFilesPath = '', $buildFilesPath = '')
@@ -297,13 +297,13 @@ class EPubHub_Environment
         {
             $buildFilesPath  = $this->getBookBuildFilesPath();
         }
-        return $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
+        $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
     }
 
     public function makeEPub(EPubHub_BookInterface $book = null, $buildFilesPath = '')
     {
         $this->renderBook($book);
-        return $this->zipRendered('', $buildFilesPath);
+        $this->zipRendered('', $buildFilesPath);
     }
 
 }
