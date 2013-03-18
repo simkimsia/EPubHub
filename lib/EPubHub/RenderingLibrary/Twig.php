@@ -106,9 +106,8 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      *
      * @throws EPubHub_Error_EPub When $book fails validation
      */
-    public function setBook(EPubHub_BookInterface &$book)
+    public function setBook(EPubHub_BookInterface $book)
     {
-        $book->setSource
         // validate book has the standard stuff like content.opf etc
         $this->book = $book;
         $this->updateTemplatePath();
