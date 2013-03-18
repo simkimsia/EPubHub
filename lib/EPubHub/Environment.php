@@ -300,4 +300,10 @@ class EPubHub_Environment
         $this->zippingLibrary->zipRendered($sourceFilesPath, $buildFilesPath);
     }
 
+    public function makeEPub(EPubHub_BookInterface $book = null, $buildFilesPath = '')
+    {
+        $this->renderBook($book);
+        $this->zipRendered('', $buildFilesPath);
+    }
+
 }
