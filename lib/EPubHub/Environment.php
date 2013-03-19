@@ -303,7 +303,8 @@ class EPubHub_Environment
     public function makeEPub(EPubHub_BookInterface $book = null, $buildFilesPath = '')
     {
         $this->renderBook($book);
-        $this->zipRendered('', $buildFilesPath);
+        $useDefaultPathForSourceFiles = '';
+        $this->zipRendered($useDefaultPathForSourceFiles, $buildFilesPath);
     }
 
 }
