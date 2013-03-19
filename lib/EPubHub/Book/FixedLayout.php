@@ -17,10 +17,10 @@
  */
 class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 {
-    // contains FixedLayoutEPubPage objects 
-    protected $pages = new PageCollection();
+    // contains EPubHub_Page_FixedLayout objects 
+    protected $pages = new EPubHub_PageCollection();
 
-    protected $images = new ImageCollection();
+    protected $images = new EPubHub_ImageCollection();
 
     protected $metadata = array(); // hold string values only
 
@@ -80,7 +80,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
  *
  * add page
  */
-    public function addPage(FixedLayoutEPubPage $page, $index = null)
+    public function addPage(EPubHub_Page_FixedLayout $page, $index = null)
     {
         $result = $this->pages->add($page, $index);
         $this->images = $this->pages->getImages();
@@ -91,7 +91,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
  *
  * delete page
  */
-    public function deletePage(FixedLayoutEPubPage $page)
+    public function deletePage(EPubHub_Page_FixedLayout $page)
     {
         $result = $this->pages->delete($page);
         $this->images = $this->pages->getImages();

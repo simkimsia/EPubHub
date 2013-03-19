@@ -100,7 +100,7 @@ class EPubHub_PageCollection implements Iterator
         return $pageItemId;
     }
 
-    public function add(FixedLayoutEPubPage $page, $index = null)
+    public function add(EPubHub_Page_FixedLayout $page, $index = null)
     {
         if ($index === null) {
             // we just append to the pages from the end directly
@@ -113,12 +113,12 @@ class EPubHub_PageCollection implements Iterator
     /**
      *
      * delete either by page or by index
-     * @param mixed $pageOrIndex If $pageOrIndex is instance of FixedLayoutEPubPage
+     * @param mixed $pageOrIndex If $pageOrIndex is instance of EPubHub_Page_FixedLayout
      * then delete by value. Else if integer delete by index
      */
     public function delete($pageOrIndex)
     {
-        if ($pageOrIndex instanceof FixedLayoutEPubPage)
+        if ($pageOrIndex instanceof EPubHub_Page_FixedLayout)
         {
             $page = $pageOrIndex;
             if(($key = array_search($page, $this->pages)) !== false)
