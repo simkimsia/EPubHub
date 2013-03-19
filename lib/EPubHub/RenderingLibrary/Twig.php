@@ -129,6 +129,35 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      *
      * @throws EPubHub_Error_EPub When rendering content.opf fails
      */
+    public function renderImages($sourceFilesPath = '')
+    {
+        $images = $this->book->getImages();
+
+        $imagesFolderPath = $sourceFilesPath . '/Images';
+        if (!file_exists($imagesFolderPath))
+        {
+            mkdir($imagesFolderPath);
+        }
+
+        $results = array();
+        foreach($images as $image)
+        {
+            $filename = $image->getName();
+
+            $result = copy ( $image->getPath(), $imagesFolderPath . '/' . $filename);
+            $results[$filename] = $result;
+        }
+        return $results;
+    }
+
+    /**
+     *
+     * Render the content.opf
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering content.opf fails
+     */
     public function renderOpf($sourceFilesPath = '')
     {
         // select file to render
@@ -152,5 +181,6 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     public function renderBook($sourceFilesPath = '')
     {
         $this->renderOpf($sourceFilesPath);
+        $this->renderImages($sourceFilesPath);
     }
 }

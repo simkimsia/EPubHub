@@ -17,61 +17,20 @@
  */
 class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
 {
-    protected $name     = '';
-    protected $mimeType = '';
-    protected $path     = '';
-    protected $size     = 0;
+    protected $image = null;
 
-    // for more info on mimetypes, check http://www.php.net/manual/en/function.image-type-to-mime-type.php
-    protected $approvedMimeTypes = array(
-        'image/gif',
-        'image/jpeg',
-        'image/png',
-    );
-
-    public function __construct($path)
+    public function __construct($image)
     {
-        $this->path = $path;
-        $this->updateMIMEType();
-        $this->updateName();
+        $this->image = $image;
     }
 
-    public function updateMIMEType()
+    public function getImage()
     {
-        $file       = $this->path;
-        $file_info  = new finfo(FILEINFO_MIME);  // object oriented approach!
-        $mime_type  = $file_info->buffer(file_get_contents($file));  // e.g. gives "image/jpeg"
-
-        if (!in_array($mime_type, $this->approvedMimeTypes))
-        {
-            // throw exception
-        }
-        $this->mimeType = $mime_type;
+        return $this->image;
     }
 
-    public function getMIMEType()
+    public function setImage(EPubHub_Image_FixedLayout $image)
     {
-        return $this->mimeType;
-    }
-
-    public function updateName()
-    {
-        $this->name = basename($this->path);
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setPath($path)
-    {
-        if (!file_exists($path))
-        {
-            // throw exception
-        }
-        $this->path = $path;
-        $this->updateName();
-        $this->updateMIMEType();
+        $this->image = $image;
     }
 }

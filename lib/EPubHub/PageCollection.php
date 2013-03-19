@@ -15,9 +15,10 @@
  * @package    epubhub
  * @author     KimSia Sim<kimsia@storyzer.com>
  */
-class PageCollection implements Iterator
+class EPubHub_PageCollection implements Iterator
 {
     protected $index0 = 0;
+    protected $index = 1;
     protected $pages = array();
 
     public function __construct()
@@ -137,6 +138,17 @@ class PageCollection implements Iterator
                 unset($this->pages[$key - 1]);
             }
         }
+    }
+
+    public function getImages()
+    {
+        $images = new EPubHub_ImageCollection();
+        foreach($pages as $page)
+        {
+            $image = $page->getImage();
+            $images->add($image);
+        }
+        return $images;
     }
 
 }

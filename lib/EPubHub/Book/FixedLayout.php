@@ -20,6 +20,8 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     // contains FixedLayoutEPubPage objects 
     protected $pages = new PageCollection();
 
+    protected $images = new ImageCollection();
+
     protected $metadata = array(); // hold string values only
 
     public $frontCover = null;
@@ -67,11 +69,22 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 
 /**
  *
+ * retrieve the pages
+ */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+/**
+ *
  * add page
  */
     public function addPage(FixedLayoutEPubPage $page, $index = null)
     {
-        return $this->pages->add($page, $index);
+        $result = $this->pages->add($page, $index);
+        $this->images = $this->pages->getImages();
+        return $result;
     }
 
 /**
@@ -80,7 +93,9 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
  */
     public function deletePage(FixedLayoutEPubPage $page)
     {
-        return $this->pages->delete($page);
+        $result = $this->pages->delete($page);
+        $this->images = $this->pages->getImages();
+        return $result;
     }
 
 /**
@@ -89,7 +104,9 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
  */
     public function deleteNthPage(int $index)
     {
-        return $this->pages->delete($index - 1);
+        $result = $this->pages->delete($index - 1);
+        $this->images = $this->pages->getImages();
+        return $result;
     }
 
 /**

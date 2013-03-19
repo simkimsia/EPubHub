@@ -10,12 +10,13 @@
  */
 
 /**
- * Interface all page must implement.
+ * Interface all image must implement.
  *
  * @package    epubhub
  * @author     KimSia Sim<kimsia@storyzer.com>
  */
-interface EPubHub_PageInterface
+interface EPubHub_ImageInterface
 {
+    const MAX_SIZE = 2000000;
 
 }
