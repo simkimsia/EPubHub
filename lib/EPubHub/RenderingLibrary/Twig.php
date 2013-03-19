@@ -138,15 +138,16 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         {
             mkdir($imagesFolderPath);
         }
-
         $results = array();
         foreach($images as $image)
         {
             $filename = $image->getName();
 
             $result = copy ( $image->getPath(), $imagesFolderPath . '/' . $filename);
+
             $results[$filename] = $result;
         }
+
         return $results;
     }
 

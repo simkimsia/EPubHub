@@ -57,14 +57,21 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
 
     public function updateImageSize()
     {
-        list($this->width, $this->height, $this->imagetype,
-            $this->imgTagString, $this->mime, $this->channels, 
-            $this->bits) = getimagesize($this->path);
+        $imageSize = getimagesize($this->path);
+        list($this->width, $this->height, $this->imagetype,$this->imgTagString) = $imageSize;
+        $this->mime = $imageSize['mime'];
+        $this->channels = $imageSize['channels'];
+        $this->bits = $imageSize['bits'];
 
-        if (!in_array($mime_type, $this->approvedMimeTypes))
+        if (!in_array($mime_type, $this->approvedMimes))
         {
             // throw exception
         }
+    }
+
+    public function getPath()
+    {
+        return $this->path;
     }
 
     public function getMime()
@@ -74,17 +81,17 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
 
     public function getWidth()
     {
-        return $this->mime;
+        return $this->width;
     }
 
     public function getHeight()
     {
-        return $this->mime;
+        return $this->height;
     }
 
     public function getImgTagString()
     {
-        return $this->mime;
+        return $this->imgTagString;
     }
 
     public function getFileSize()
@@ -122,6 +129,7 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
         if (!file_exists($path))
         {
             // throw exception
+            echo "no such file!!";
         }
         $this->path = $path;
         $this->updateName();
@@ -132,7 +140,7 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
     public function updateFileSize()
     {
         $size = filesize($this->path);
-        if ($size > EPubHub_ImageInterface::MAX_SIZE)
+        if ($size > self::MAX_SIZE)
         {
             // throw exception
         }

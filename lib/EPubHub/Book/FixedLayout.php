@@ -18,9 +18,9 @@
 class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 {
     // contains EPubHub_Page_FixedLayout objects 
-    protected $pages = new EPubHub_PageCollection();
+    protected $pages = null;
 
-    protected $images = new EPubHub_ImageCollection();
+    protected $images = null;
 
     protected $metadata = array(); // hold string values only
 
@@ -28,6 +28,8 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     public $backCover = null;
 
     public function __construct($metadata = array()) {
+        $this->pages = new EPubHub_PageCollection();
+        $this->images = new EPubHub_ImageCollection();
         $this->_setDefaults();
         $this->updateMetadata($metadata);
     }

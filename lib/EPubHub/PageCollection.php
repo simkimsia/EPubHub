@@ -41,7 +41,7 @@ class EPubHub_PageCollection implements Iterator
 
     public function current()
     {
-        return $this->array[$this->index0];
+        return $this->pages[$this->index0];
     }
 
     public function key() 
@@ -62,7 +62,7 @@ class EPubHub_PageCollection implements Iterator
 
     public function valid() 
     {
-        return isset($this->array[$this->index0]);
+        return isset($this->pages[$this->index0]);
     }
 
     public function prefixZero($index, $lengthOfKey = 3)
@@ -72,7 +72,8 @@ class EPubHub_PageCollection implements Iterator
 
     public function getCurrentPageNumber()
     {
-        $pageNumber = $this->prefixZero($this->index0 + 1);
+        $pageNumber = $this->prefixZero($this->index);
+        return $pageNumber;
     }
 
     public function getCurrentPageFilename($pagenumber = '')
@@ -100,7 +101,7 @@ class EPubHub_PageCollection implements Iterator
         return $pageItemId;
     }
 
-    public function add(EPubHub_Page_FixedLayout $page, $index = null)
+    public function add(EPubHub_PageInterface $page, $index = null)
     {
         if ($index === null) {
             // we just append to the pages from the end directly
@@ -113,42 +114,45 @@ class EPubHub_PageCollection implements Iterator
     /**
      *
      * delete either by page or by index
-     * @param mixed $pageOrIndex If $pageOrIndex is instance of EPubHub_Page_FixedLayout
+     * @param mixed $pageOrIndex If $pageOrIndex is instance of EPubHub_PageInterface
      * then delete by value. Else if integer delete by index
      */
     public function delete($pageOrIndex)
     {
-        if ($pageOrIndex instanceof EPubHub_Page_FixedLayout)
+        
+        if ($pageOrIndex instanceof EPubHub_PageInterface)
         {
             $page = $pageOrIndex;
             if(($key = array_search($page, $this->pages)) !== false)
             {
                 unset($this->pages[$key]);
             }
-            if((array_key_exists($page, search) !== false)
-            {
-                unset($this->pages[$key]);
-            }
         } 
+
         if (is_numeric($pageOrIndex)) 
         {
             $key = $pageOrIndex;
-            if((array_key_exists($key - 1, $this->pages))
+            
+            if((array_key_exists($key - 1, $this->pages)))
             {
                 unset($this->pages[$key - 1]);
             }
+
         }
+    
     }
 
     public function getImages()
     {
         $images = new EPubHub_ImageCollection();
-        foreach($pages as $page)
+
+        foreach($this->pages as $page)
         {
             $image = $page->getImage();
             $images->add($image);
         }
         return $images;
     }
+
 
 }

@@ -41,7 +41,7 @@ class EPubHub_ImageCollection implements Iterator
 
     public function current()
     {
-        return $this->array[$this->index0];
+        return $this->images[$this->index0];
     }
 
     public function key() 
@@ -62,7 +62,7 @@ class EPubHub_ImageCollection implements Iterator
 
     public function valid() 
     {
-        return isset($this->array[$this->index0]);
+        return isset($this->images[$this->index0]);
     }
 
     public function getNth($index)
@@ -70,7 +70,7 @@ class EPubHub_ImageCollection implements Iterator
         return $this->images[$index - 1];
     }
 
-    public function add(EPubHub_Image_FixedLayout $image)
+    public function add(EPubHub_ImageInterface $image)
     {
         $this->images[] = $image;
     }
@@ -78,27 +78,23 @@ class EPubHub_ImageCollection implements Iterator
     /**
      *
      * delete either by image or by index
-     * @param mixed $imageOrIndex If $imageOrIndex is instance of EPubHub_Image_FixedLayout
+     * @param mixed $imageOrIndex If $imageOrIndex is instance of EPubHub_ImageInterface
      * then delete by value. Else if integer delete by index
      */
     public function delete($imageOrIndex)
     {
-        if ($imageOrIndex instanceof EPubHub_Image_FixedLayout)
+        if ($imageOrIndex instanceof EPubHub_ImageInterface)
         {
             $image = $imageOrIndex;
             if(($key = array_search($image, $this->images)) !== false)
             {
                 unset($this->images[$key]);
             }
-            if((array_key_exists($image, search) !== false)
-            {
-                unset($this->images[$key]);
-            }
-        } 
+        }
         if (is_numeric($imageOrIndex)) 
         {
             $key = $imageOrIndex;
-            if((array_key_exists($key - 1, $this->images))
+            if((array_key_exists($key - 1, $this->images)))
             {
                 unset($this->images[$key - 1]);
             }
