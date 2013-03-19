@@ -18,7 +18,7 @@
 class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 {
     // contains FixedLayoutEPubPage objects 
-    protected $pages = array();
+    protected $pages = new PageCollection();
 
     protected $metadata = array(); // hold string values only
 
@@ -58,15 +58,47 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 
 /**
  *
- * append new page 
+ * retrieve the pages
  */
-    public function addPage(FixedLayoutEPubPage $page, $addAtIndex=null) {
-        if ($addAtIndex == null) {
-            // we just append to the pages
-            $this->pages[] = $page;
-        } else {
-            $this->pages = ArrayLib::insert($this->pages, $addAtIndex, $page);
-        }
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+/**
+ *
+ * add page
+ */
+    public function addPage(FixedLayoutEPubPage $page, $index = null)
+    {
+        return $this->pages->add($page, $index);
+    }
+
+/**
+ *
+ * delete page
+ */
+    public function deletePage(FixedLayoutEPubPage $page)
+    {
+        return $this->pages->delete($page);
+    }
+
+/**
+ *
+ * delete nth page
+ */
+    public function deleteNthPage(int $index)
+    {
+        return $this->pages->delete($index - 1);
+    }
+
+/**
+ *
+ * get nth page
+ */
+    public function getNthPage(int $index)
+    {
+        return $this->pages->getNth($index);
     }
 
 }
