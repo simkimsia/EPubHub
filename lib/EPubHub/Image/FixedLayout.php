@@ -124,6 +124,15 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
         return $this->name;
     }
 
+    /*
+     *
+     * Alias for getName() return filename of the image
+     */
+    public function name()
+    {
+        return $this->getName();
+    }
+
     public function setPath($path)
     {
         if (!file_exists($path))
