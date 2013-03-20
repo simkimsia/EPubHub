@@ -249,6 +249,31 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
 
     /**
      *
+     * Render the toc.ncx
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering toc.ncx fails
+     */
+    public function renderToc($sourceFilesPath = '')
+    {
+        $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
+        if (!file_exists($oebpsFilesPath))
+        {
+            mkdir($oebpsFilesPath);
+        }
+        // select file to render
+        $fileToRender = 'toc.ncx';
+        // render using Twig
+        $renderedToc = $this->twig->render('OEBPS/' . $fileToRender . '.html', array('book' => $this->book));
+        // write the rendered content into a file
+        $result      = file_put_contents($oebpsFilesPath . '/' . $fileToRender, $renderedToc);
+
+        return $result;
+    }
+
+    /**
+     *
      * Render the entire book into the source path
      *
      * @return void
@@ -259,6 +284,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     {
         $this->makeSourceFilesDir($sourceFilesPath);
         $this->renderOpf($sourceFilesPath);
+        $this->renderToc($sourceFilesPath);
         $this->renderImages($sourceFilesPath);
         $this->renderStyles($sourceFilesPath);
         $this->renderPages($sourceFilesPath);
