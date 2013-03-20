@@ -161,12 +161,17 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderStyles($sourceFilesPath = '')
     {
+        $stylesFilesPath = $sourceFilesPath . '/Styles';
+        if (!file_exists($stylesFilesPath))
+        {
+            mkdir($stylesFilesPath);
+        }
         // select file to render
         $fileToRender = 'styles.css';
         // render using Twig
         $renderedCss = $this->twig->render('Styles/' . $fileToRender . '.html', array('epub' => $this->book));
         // write the rendered content into a file
-        $result      = file_put_contents($sourceFilesPath . '/' . $fileToRender, $renderedCss);
+        $result      = file_put_contents($stylesFilesPath . '/' . $fileToRender, $renderedCss);
 
         return $result;
     }
@@ -181,12 +186,17 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderOpf($sourceFilesPath = '')
     {
+        $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
+        if (!file_exists($oebpsFilesPath))
+        {
+            mkdir($oebpsFilesPath);
+        }
         // select file to render
         $fileToRender = 'content.opf';
         // render using Twig
         $renderedOpf = $this->twig->render('OEBPS/' . $fileToRender . '.html', array('epub' => $this->book));
         // write the rendered content into a file
-        $result      = file_put_contents($sourceFilesPath . '/' . $fileToRender, $renderedOpf);
+        $result      = file_put_contents($oebpsFilesPath . '/' . $fileToRender, $renderedOpf);
 
         return $result;
     }

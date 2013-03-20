@@ -36,7 +36,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
             'width' => 1200
         );
         $size = array_merge($defaultSize, $size);
-        $this->setSize()
+        $this->setSize($size);
         $this->pages = new EPubHub_PageCollection();
         $this->images = new EPubHub_ImageCollection();
         $this->_setDefaults();
