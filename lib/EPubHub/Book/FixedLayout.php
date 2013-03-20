@@ -116,7 +116,8 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     {
         // for some reason the PageCollection is not working in the foreach loop
         // inside Twig
-        return $this->getPages();
+        $pageCollection =  $this->getPages();
+        return $pageCollection->getPages();
     }
 
 /**
