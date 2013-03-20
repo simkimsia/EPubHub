@@ -298,6 +298,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     public function setFrontCover($image)
     {
         $this->frontCover = $image;
+        $this->updateImages();
     }
 
     /**
@@ -328,6 +329,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     public function setBackCover($image)
     {
         $this->backCover = $image;
+        $this->updateImages();
     }
 
     /**
