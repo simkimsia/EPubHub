@@ -222,7 +222,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         // get page id for incoming page
         $id        = $this->makeDefaultPageId();
         // prefix the page id with the book title and ' '
-        $pageTitle = $this->title . ' ' .  $id;
+        $pageTitle = $this->title() . ' ' .  $id;
         return $pageTitle;
     }
 
