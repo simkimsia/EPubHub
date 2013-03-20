@@ -161,6 +161,61 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
 
     /**
      *
+     * Render the meta-inf folder
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering Meta-INF fails
+     */
+    public function renderMetaInf($sourceFilesPath = '')
+    {
+        $metaInfFolderPath = $sourceFilesPath . '/META-INF';
+        if (!file_exists($metaInfFolderPath))
+        {
+            mkdir($metaInfFolderPath);
+        }
+        $results = array();
+        $files = array(
+            'container.xml',
+            'com.apple.ibooks.display-options.xml'
+        );
+        foreach($files as $filename)
+        {
+            $originalFilePath = $this->twigBookTypeTemplatePath . '/META-INF/' . $filename;
+
+            $result = copy ( $originalFilePath, $metaInfFolderPath . '/' . $filename);
+
+            $results[$filename] = $result;
+        }
+
+        return $results;
+    }
+
+    /**
+     *
+     * Render the mimetype file
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering Meta-INF fails
+     */
+    public function renderMimeType($sourceFilesPath = '')
+    {
+        $filename = 'mimetype';
+
+        $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
+        if (!file_exists($oebpsFilesPath))
+        {
+            mkdir($oebpsFilesPath);
+        }
+
+        $result = copy ( $this->twigBookTypeTemplatePath . '/' . $filename, $oebpsFilesPath . '/' . $filename);
+
+        return $result;
+    }
+
+    /**
+     *
      * Render the styles.css
      *
      * @return void
@@ -288,6 +343,8 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         $this->renderImages($sourceFilesPath);
         $this->renderStyles($sourceFilesPath);
         $this->renderPages($sourceFilesPath);
+        $this->renderMetaInf($sourceFilesPath);
+        $this->renderMimeType($sourceFilesPath);
     }
 
     /**
@@ -300,6 +357,12 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function makeSourceFilesDir($sourceFilesPath = '')
     {
+        $metaInfFilesPath = $sourceFilesPath . '/META-INF';
+        if (!file_exists($metaInfFilesPath))
+        {
+            mkdir($metaInfFilesPath);
+        }
+
         $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
         if (!file_exists($oebpsFilesPath))
         {

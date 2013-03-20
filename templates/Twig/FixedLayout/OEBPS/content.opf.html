@@ -9,7 +9,7 @@
         <dc:language>{{ metadata.language }}</dc:language>
         <dc:identifier id="book-id">dsds</dc:identifier>
         <meta content="front-cover" name="cover"/>
-        <meta content="back-cover" name="cover"/>
+        <!-- <meta content="back-cover" name="cover"/> -->
     </metadata>
     <manifest>
         <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
@@ -25,11 +25,15 @@
     {% endfor %}
 
     {% if book.front_cover is not null %}
+
         <item href="Images/{{ book.front_cover.name }}" id="front-cover" media-type="{{ book.front_cover.mime }}"/>
+
     {% endif %}
     {% if book.back_cover is not null %}
+
         <item href="Images/{{ book.back_cover.name }}" id="back-cover" media-type="{{ book.back_cover.mime }}"/>
     {% endif %}
+
     </manifest>
     <spine toc="ncx">
     {% for page in book.pages %}
@@ -37,13 +41,20 @@
     {% endfor %}
     </spine>
     <guide>
-        <!--<reference href="Pages/page001.xhtml" type="cover"/>-->
+
     {% for page in book.pages %}
+
         {% if book.front_cover is not null and book.front_cover.name == page.image.name %}
+
         <reference href="Pages/{{ page.id }}.xhtml" type="cover"/>
+
         {% else %}
+
         <reference href="Pages/{{ page.id }}.xhtml" type="text"/>
+
         {% endif %}
+
     {% endfor %}
+
     </guide>
 </package>
