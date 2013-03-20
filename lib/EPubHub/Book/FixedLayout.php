@@ -65,11 +65,15 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 /**
  *
  */
-    public function getMetadata() {
+    public function getMetadata($key = '') {
+        if (isset($this->metadata[$key]))
+        {
+            return $this->metadata[$key];
+        }
         return $this->metadata;
     }
 
-    /*
+    /**
      *
      */
     public function height()
@@ -77,12 +81,20 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $this->getHeight();
     }
 
-    /*
+    /**
      *
      */
     public function width()
     {
         return $this->getWidth();
+    }
+
+    /*
+     *
+     */
+    public function title()
+    {
+        return $this->getMetadata('title');
     }
 
     /**
