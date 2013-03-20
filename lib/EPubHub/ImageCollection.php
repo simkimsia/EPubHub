@@ -75,6 +75,11 @@ class EPubHub_ImageCollection implements Iterator
         $this->images[] = $image;
     }
 
+    public function length()
+    {
+        return count($this->images);
+    }
+
     /**
      *
      * delete either by image or by index

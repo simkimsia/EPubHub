@@ -65,6 +65,11 @@ class EPubHub_PageCollection implements Iterator
         return isset($this->pages[$this->index0]);
     }
 
+    public function length()
+    {
+        return count($this->pages);
+    }
+
     public function prefixZero($index, $lengthOfKey = 3)
     {
         return str_pad($index, $lengthOfKey, '0', STR_PAD_LEFT);
