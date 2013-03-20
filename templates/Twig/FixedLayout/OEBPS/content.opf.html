@@ -33,10 +33,10 @@
 
         <item href="Images/BACK OF BACK COVER.jpg" id="bobc-image" media-type="image/jpeg"/>
     -->
-    {% if book.front_cover is null %}
+    {% if book.front_cover is not null %}
         <item href="Images/{{ book.front_cover.name }}" id="front-cover" media-type="{{ book.front_cover.mime }}"/>
     {% endif %}
-    {% if book.back_cover is null %}
+    {% if book.back_cover is not null %}
         <item href="Images/{{ book.back_cover.name }}" id="back-cover" media-type="{{ book.back_cover.mime }}"/>
     {% endif %}
     </manifest>
