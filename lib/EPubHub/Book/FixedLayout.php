@@ -17,17 +17,14 @@
  */
 class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
 {
-    // contains EPubHub_Page_FixedLayout objects 
-    protected $pages = null;
-
-    protected $images = null;
-
+    protected $pages    = null;
+    protected $images   = null;
     protected $metadata = array(); // hold string values only
 
     public $frontCover = null;
-    public $backCover = null;
+    public $backCover  = null;
 
-    protected $width = 0; // ideal width as suggested by  Liz Castro is 1200
+    protected $width  = 0; // ideal width as suggested by  Liz Castro is 1200
     protected $height = 0; // ideal height as suggested by Liz Castro is 1700
 
     public function __construct($metadata = array(), $size = array()) {
@@ -271,6 +268,66 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     public function getNthPage(int $index)
     {
         return $this->pages->getNth($index);
+    }
+
+    /**
+     *
+     * Get the front cover as EPubHub_ImageInterface object
+     * @return EPubHub_ImageInterface the front cover 
+     */
+    public function getFrontCover()
+    {
+        return $this->frontCover;
+    }
+
+    /**
+     *
+     * Alias for getFrontCover
+     * @return EPubHub_ImageInterface the front cover 
+     */
+    public function front_cover()
+    {
+        return $this->getFrontCover();
+    }
+
+    /**
+     *
+     * Set the front cover as EPubHub_ImageInterface object
+     * @param EPubHub_ImageInterface $image
+     */
+    public function setFrontCover($image)
+    {
+        $this->frontCover = $image;
+    }
+
+    /**
+     *
+     * Get the back cover as EPubHub_ImageInterface object
+     * @return EPubHub_ImageInterface the back cover 
+     */
+    public function getBackCover()
+    {
+        return $this->backCover;
+    }
+
+    /**
+     *
+     * Alias for getBackCover
+     * @return EPubHub_ImageInterface the back cover 
+     */
+    public function back_cover()
+    {
+        return $this->getBackCover();
+    }
+
+    /**
+     *
+     * Set the back cover as EPubHub_ImageInterface object
+     * @param EPubHub_ImageInterface $image
+     */
+    public function setBackCover($image)
+    {
+        $this->backCover = $image;
     }
 
 }

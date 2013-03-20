@@ -17,9 +17,9 @@
  */
 class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
 {
-    protected $image = null;
-    protected $title = '';
-    protected $id    = '';
+    protected $image  = null;
+    protected $title  = '';
+    protected $id     = '';
     protected $width  = 0;
     protected $height = 0;
 
