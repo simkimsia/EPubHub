@@ -19,20 +19,11 @@
         {# image gives us image object, etc #}
         {% set image = page.image %}
 
-        <item href="Pages/{{ page.id  }}.xhtml" id="{{ page.id }}" media-type="application/xhtml+xml"/>
+        <item href="Pages/{{ page.id }}.xhtml" id="{{ page.id }}" media-type="application/xhtml+xml"/>
         <item href="Images/{{ image.name }}" id="{{ page.id }}-image" media-type="{{ image.mime }}"/>
 
     {% endfor %}
-    <!--
-        <item href="Images/PAGE1.jpg" id="page01-image" media-type="image/jpeg"/>
-        <item href="Images/PAGE1-intl.jpg" id="page01-intl-image" media-type="image/jpeg"/>
-        <item href="Images/PAGE2.jpg" id="page02-image" media-type="image/jpeg"/>
-        <item href="Images/PAGE2-intl.jpg" id="page02-intl-image" media-type="image/jpeg"/>
 
-        <item href="Images/BACK COVER.jpg" id="bc-image" media-type="image/jpeg"/>
-
-        <item href="Images/BACK OF BACK COVER.jpg" id="bobc-image" media-type="image/jpeg"/>
-    -->
     {% if book.front_cover is not null %}
         <item href="Images/{{ book.front_cover.name }}" id="front-cover" media-type="{{ book.front_cover.mime }}"/>
     {% endif %}
@@ -41,11 +32,18 @@
     {% endif %}
     </manifest>
     <spine toc="ncx">
-        <itemref idref="pg001"/>
-        <itemref idref="pg002"/>
+    {% for page in book.pages %}
+        <itemref idref="{{ page.id }}"/>
+    {% endfor %}
     </spine>
     <guide>
-        <reference href="Pages/page001.xhtml" type="cover"/>
-        <reference href="Pages/page002.xhtml" type="text"/>
+        <!--<reference href="Pages/page001.xhtml" type="cover"/>-->
+    {% for page in book.pages %}
+        {% if book.front_cover is not null and book.front_cover.name == page.image.name %}
+        <reference href="Pages/{{ page.id }}.xhtml" type="cover"/>
+        {% else %}
+        <reference href="Pages/{{ page.id }}.xhtml" type="text"/>
+        {% endif %}
+    {% endfor %}
     </guide>
 </package>
