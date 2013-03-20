@@ -113,6 +113,14 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         $this->updateTemplatePath();
     }
 
+    /**
+     *
+     * Update the path from which we will extract the templates from
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When setting the templates path
+     */
     public function updateTemplatePath()
     {
         if ($this->book instanceof EPubHub_Book_FixedLayout)
@@ -217,6 +225,14 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         $this->renderStyles($sourceFilesPath);
     }
 
+    /**
+     *
+     * make directories in the source files path
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When making the directories fail
+     */
     public function makeSourceFilesDir($sourceFilesPath = '')
     {
         $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
