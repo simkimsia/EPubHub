@@ -204,14 +204,17 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         $results = array();
         foreach($pages as $page)
         {
-            $pageTitle = $page->title();
+            $pageTitle = $page->getTitle();
+            $pageId    = $page->getId();
             // select file to render
-            $fileToRender = 'page.xhtml';
+            $fileToRender = 'page.xhtm.html';
+            // select source file to render
+            $sourceFile   = $pageId . '.xhtm';
             // render using Twig
-            $renderedPage = $this->twig->render('OEBPS/Pages/' . $fileToRender . '.html', array('epub' => $this->book));
+            $renderedPage = $this->twig->render('OEBPS/Pages/' . $fileToRender, array('epub' => $this->book));
             // write the rendered content into a file
-            $result      = file_put_contents($stylesFilesPath . '/' . $fileToRender, $renderedPage);
-            $results[]
+            $result      = file_put_contents($pagesFolderPath . '/' . $sourceFile, $renderedPage);
+            $results[$pageId] = $result;
         }
 
         return $results;
