@@ -27,7 +27,16 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
     public $frontCover = null;
     public $backCover = null;
 
-    public function __construct($metadata = array()) {
+    protected $width = 0; // ideal width as suggested by  Liz Castro is 1200
+    protected $height = 0; // ideal height as suggested by Liz Castro is 1700
+
+    public function __construct($metadata = array(), $size = array()) {
+        $defaultSize = array(
+            'height' => 1700,
+            'width' => 1200
+        );
+        $size = array_merge($defaultSize, $size);
+        $this->setSize()
         $this->pages = new EPubHub_PageCollection();
         $this->images = new EPubHub_ImageCollection();
         $this->_setDefaults();
@@ -78,12 +87,62 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $this->images;
     }
 
+
+    /*
+     *
+     * get height
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /*
+     *
+     * get width
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /*
+     *
+     * set height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /*
+     *
+     * set width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    public function setSize($size)
+    {
+        if (isset($size['width']))
+        {
+            $this->setWidth($size['width']);
+        }
+        if (isset($size['height']))
+        {
+            $this->setHeight($size['height']);
+        }
+    }
+
 /**
  *
  * add page
  */
     public function addPage(EPubHub_Page_FixedLayout $page, $index = null)
     {
+        // validate that the newly added page fits the stated width and height by within +-5 px range
         $result = $this->pages->add($page, $index);
         $this->images = $this->pages->getImages();
         return $result;

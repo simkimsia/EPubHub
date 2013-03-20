@@ -123,11 +123,11 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
 
     /**
      *
-     * Render the content.opf
+     * Render the images
      *
      * @return void
      *
-     * @throws EPubHub_Error_EPub When rendering content.opf fails
+     * @throws EPubHub_Error_EPub When rendering images fails
      */
     public function renderImages($sourceFilesPath = '')
     {
@@ -149,6 +149,26 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         }
 
         return $results;
+    }
+
+    /**
+     *
+     * Render the styles.css
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering images fails
+     */
+    public function renderStyles($sourceFilesPath = '')
+    {
+        // select file to render
+        $fileToRender = 'styles.css';
+        // render using Twig
+        $renderedCss = $this->twig->render('Styles/' . $fileToRender . '.html', array('epub' => $this->book));
+        // write the rendered content into a file
+        $result      = file_put_contents($sourceFilesPath . '/' . $fileToRender, $renderedCss);
+
+        return $result;
     }
 
     /**
@@ -183,5 +203,6 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     {
         $this->renderOpf($sourceFilesPath);
         $this->renderImages($sourceFilesPath);
+        $this->renderStyles($sourceFilesPath);
     }
 }
