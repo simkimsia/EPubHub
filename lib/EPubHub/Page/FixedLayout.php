@@ -20,6 +20,8 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
     protected $image = null;
     protected $title = '';
     protected $id    = '';
+    protected $width  = 0;
+    protected $height = 0;
 
     /**
      * Constructor for EPubHub_Page_FixedLayout
@@ -28,9 +30,11 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
      */
     public function __construct($image, $options = array())
     {
-        $this->title = isset($options['title']) ? $options['title'] : '';
-        $this->id    = isset($options['id']) ? $options['id'] : '';
-        $this->image = $image;
+        $this->title  = isset($options['title']) ? $options['title'] : '';
+        $this->id     = isset($options['id']) ? $options['id'] : '';
+        $this->image  = $image;
+        $this->height = $this->image->getHeight();
+        $this->width  = $this->image->getWidth();
     }
 
     /**
@@ -60,7 +64,9 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
      */
     public function setImage(EPubHub_Image_FixedLayout $image)
     {
-        $this->image = $image;
+        $this->image  = $image;
+        $this->height = $this->image->getHeight();
+        $this->width  = $this->image->getWidth();
     }
 
     /**
@@ -121,5 +127,65 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * Get width 
+     *
+     * @return numeric 
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     *
+     * Alias for getWidth() 
+     * @return numeric
+     */
+    public function width()
+    {
+        return $this->getWidth();
+    }
+
+    /**
+     * Set width
+     *
+     * @param numerid $id
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * Get height 
+     *
+     * @return numeric 
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     *
+     * Alias for getHeight() 
+     * @return numeric
+     */
+    public function height()
+    {
+        return $this->getHeight();
+    }
+
+    /**
+     * Set height
+     *
+     * @param numerid $id
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
     }
 }

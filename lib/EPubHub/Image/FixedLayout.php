@@ -42,7 +42,6 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
     protected $channels = '';
     protected $bits = '';
 
-
     // for more info on mimetypes, check http://www.php.net/manual/en/function.image-type-to-mime-type.php
     protected $approvedMimes = array(
         'image/gif',
