@@ -133,7 +133,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     {
         $images = $this->book->getImages();
 
-        $imagesFolderPath = $sourceFilesPath . '/Images';
+        $imagesFolderPath = $sourceFilesPath . '/OEBPS/Images';
         if (!file_exists($imagesFolderPath))
         {
             mkdir($imagesFolderPath);
@@ -161,7 +161,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderStyles($sourceFilesPath = '')
     {
-        $stylesFilesPath = $sourceFilesPath . '/Styles';
+        $stylesFilesPath = $sourceFilesPath . '/OEBPS/Styles';
         if (!file_exists($stylesFilesPath))
         {
             mkdir($stylesFilesPath);
@@ -169,7 +169,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         // select file to render
         $fileToRender = 'styles.css';
         // render using Twig
-        $renderedCss = $this->twig->render('Styles/' . $fileToRender . '.html', array('epub' => $this->book));
+        $renderedCss = $this->twig->render('OEBPS/Styles/' . $fileToRender . '.html', array('epub' => $this->book));
         // write the rendered content into a file
         $result      = file_put_contents($stylesFilesPath . '/' . $fileToRender, $renderedCss);
 
@@ -211,8 +211,36 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderBook($sourceFilesPath = '')
     {
+        $this->makeSourceFilesDir($sourceFilesPath);
         $this->renderOpf($sourceFilesPath);
         $this->renderImages($sourceFilesPath);
         $this->renderStyles($sourceFilesPath);
+    }
+
+    public function makeSourceFilesDir($sourceFilesPath = '')
+    {
+        $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
+        if (!file_exists($oebpsFilesPath))
+        {
+            mkdir($oebpsFilesPath);
+        }
+
+        $stylesFilesPath = $oebpsFilesPath . '/Styles';
+        if (!file_exists($stylesFilesPath))
+        {
+            mkdir($stylesFilesPath);
+        }
+
+        $imagesFilesPath = $oebpsFilesPath . '/Images';
+        if (!file_exists($imagesFilesPath))
+        {
+            mkdir($imagesFilesPath);
+        }
+
+        $pagesFilesPath = $oebpsFilesPath . '/Pages';
+        if (!file_exists($pagesFilesPath))
+        {
+            mkdir($pagesFilesPath);
+        }
     }
 }
