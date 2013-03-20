@@ -32,9 +32,7 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
     {
         $this->title  = isset($options['title']) ? $options['title'] : '';
         $this->id     = isset($options['id']) ? $options['id'] : '';
-        $this->image  = $image;
-        $this->height = $this->image->getHeight();
-        $this->width  = $this->image->getWidth();
+        $this->setImage($image);
     }
 
     /**
@@ -65,8 +63,8 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
     public function setImage(EPubHub_Image_FixedLayout $image)
     {
         $this->image  = $image;
-        $this->height = $this->image->getHeight();
-        $this->width  = $this->image->getWidth();
+        $this->setHeight($this->image->getHeight());
+        $this->setWidth($this->image->getWidth());
     }
 
     /**
