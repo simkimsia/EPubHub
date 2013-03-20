@@ -257,7 +257,7 @@ class EPubHub_Environment
             $this->book = $book;
         }
         $metadata        = $this->book->getMetadata();
-        $bookId          = $metadata['book_id'];
+        $bookId          = $this->metadata['book_id'];
         return $this->sourceFilesPath . '/' . $bookId;
     }
 
