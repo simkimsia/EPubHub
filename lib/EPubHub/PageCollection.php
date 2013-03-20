@@ -159,5 +159,10 @@ class EPubHub_PageCollection implements Iterator
         return $images;
     }
 
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
 
 }
