@@ -69,6 +69,22 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $this->metadata;
     }
 
+    /*
+     *
+     */
+    public function height()
+    {
+        return $this->getHeight();
+    }
+
+    /*
+     *
+     */
+    public function width()
+    {
+        return $this->getWidth();
+    }
+
 /**
  *
  * retrieve the pages
