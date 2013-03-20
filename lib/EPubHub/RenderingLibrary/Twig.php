@@ -17,12 +17,12 @@
  */
 class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
 {
-    protected $name         = '';
-    protected $book         = null;
-    protected $twig         = null;
+    protected $name                     = '';
+    protected $book                     = null;
+    protected $twig                     = null;
     // define these three before working
-    protected $twigLibraryPath = '';
-    protected $twigTemplatesPath = '';
+    protected $twigLibraryPath          = '';
+    protected $twigTemplatesPath        = '';
     protected $twigBookTypeTemplatePath = '';
 
     /**
@@ -186,6 +186,39 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
 
     /**
      *
+     * Render the pages
+     *
+     * @return void
+     *
+     * @throws EPubHub_Error_EPub When rendering images fails
+     */
+    public function renderPages($sourceFilesPath = '')
+    {
+        $pages = $this->book->getPages();
+
+        $pagesFolderPath = $sourceFilesPath . '/OEBPS/Pages';
+        if (!file_exists($pagesFolderPath))
+        {
+            mkdir($pagesFolderPath);
+        }
+        $results = array();
+        foreach($pages as $page)
+        {
+            $pageTitle = $page->title();
+            // select file to render
+            $fileToRender = 'page.xhtml';
+            // render using Twig
+            $renderedPage = $this->twig->render('OEBPS/Pages/' . $fileToRender . '.html', array('epub' => $this->book));
+            // write the rendered content into a file
+            $result      = file_put_contents($stylesFilesPath . '/' . $fileToRender, $renderedPage);
+            $results[]
+        }
+
+        return $results;
+    }
+
+    /**
+     *
      * Render the content.opf
      *
      * @return void
@@ -223,6 +256,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         $this->renderOpf($sourceFilesPath);
         $this->renderImages($sourceFilesPath);
         $this->renderStyles($sourceFilesPath);
+        $this->renderPages($sourceFilesPath);
     }
 
     /**

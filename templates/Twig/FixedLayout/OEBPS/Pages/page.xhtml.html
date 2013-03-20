@@ -5,13 +5,13 @@
 
 <head>
 	<meta content="width=1133,height=1700" name="viewport" />
-	<title>STORYDEX</title>
+	<title>{{ page.title }}</title>
 	<link href="../Styles/styles.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-	<div class="page01 fullpage">
-		<img alt="page01" src="../Images/PAGE1-intl.jpg" />
+	<div id="{{ page.id }}" class="fullpage">
+		<img alt="{{ page.id }}" src="../Images/{{ page.image.name }}" />
 	</div>
 </body>
 </html>

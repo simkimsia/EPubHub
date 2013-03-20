@@ -85,18 +85,32 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $this->getWidth();
     }
 
-/**
- *
- * retrieve the pages
- */
+    /**
+     *
+     * retrieve the pages
+     *
+     * @return EPubHub_PageCollection Collection of EPubHub_PageInterface
+     */
     public function getPages()
     {
         return $this->pages;
     }
 
+    /**
+     *
+     * Alias for getPages
+     * retrieve the pages
+     *
+     * @return EPubHub_PageCollection Collection of EPubHub_PageInterface
+     */
+    public function pages()
+    {
+        return $this->getPages();
+    }
+
 /**
  *
- * retrieve the pages
+ * retrieve the images
  */
     public function getImages()
     {
@@ -131,7 +145,7 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         $this->height = $height;
     }
 
-    /*
+    /**
      *
      * set width
      */
@@ -140,6 +154,16 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         $this->width = $width;
     }
 
+    /**
+     *
+     * Set size 
+     * 
+     * @param array $size Size options
+     * 
+     * #options
+     * - height: integer representing height in pixels
+     * - width: integer representing width in pixels
+     */
     public function setSize($size)
     {
         if (isset($size['width']))
@@ -152,22 +176,64 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         }
     }
 
-/**
- *
- * add page
- */
-    public function addPage(EPubHub_Page_FixedLayout $page, $index = null)
+    /**
+     *
+     * add page
+     */
+    public function addPage(EPubHub_Page_FixedLayout &$page, $index = null)
     {
         // validate that the newly added page fits the stated width and height by within +-5 px range
+        if ($page->getTitle() === '')
+        {
+            $title = $this->makeDefaultPageTitle();
+            $page->setTitle($title);
+        }
+        if ($page->getId() === '')
+        {
+            $id = $this->makeDefaultPageId();
+            $page->setId($id);
+        }
         $result = $this->pages->add($page, $index);
         $this->images = $this->pages->getImages();
         return $result;
     }
 
-/**
- *
- * delete page
- */
+    /**
+     *
+     * Make a default page title for the next incoming page
+     *
+     * @return string 
+     *
+     */
+    public function makeDefaultPageTitle()
+    {
+        // get page id for incoming page
+        $id        = $this->makeDefaultPageId();
+        // prefix the page id with the book title and ' '
+        $pageTitle = $this->title . ' ' .  $id;
+        return $pageTitle;
+    }
+
+    /**
+     *
+     * Make a default page id for the next incoming page
+     *
+     * @return string 
+     *
+     */
+    public function makeDefaultPageId()
+    {
+        // get current page count
+        $count  = $this->pages->length();
+        // make the page title as page00x
+        $pageId = 'page' . $this->pages->prefixZero($count + 1);
+        return $pageId;
+    }
+
+    /**
+     *
+     * delete page
+     */
     public function deletePage(EPubHub_Page_FixedLayout $page)
     {
         $result = $this->pages->delete($page);
@@ -175,10 +241,10 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $result;
     }
 
-/**
- *
- * delete nth page
- */
+    /**
+     *
+     * delete nth page
+     */
     public function deleteNthPage(int $index)
     {
         $result = $this->pages->delete($index - 1);
@@ -186,10 +252,10 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
         return $result;
     }
 
-/**
- *
- * get nth page
- */
+    /**
+     *
+     * get nth page
+     */
     public function getNthPage(int $index)
     {
         return $this->pages->getNth($index);
