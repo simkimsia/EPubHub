@@ -24,6 +24,11 @@ class EPubHub_Page_FixedLayout implements EPubHub_PageInterface
         $this->image = $image;
     }
 
+    /**
+     * get image object
+     *
+     * @return EPubHub_Image_FixedLayout object
+     */
     public function getImage()
     {
         return $this->image;
