@@ -177,7 +177,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         // select file to render
         $fileToRender = 'styles.css';
         // render using Twig
-        $renderedCss = $this->twig->render('OEBPS/Styles/' . $fileToRender . '.html', array('epub' => $this->book));
+        $renderedCss = $this->twig->render('OEBPS/Styles/' . $fileToRender . '.html', array('book' => $this->book));
         // write the rendered content into a file
         $result      = file_put_contents($stylesFilesPath . '/' . $fileToRender, $renderedCss);
 
@@ -240,7 +240,7 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
         // select file to render
         $fileToRender = 'content.opf';
         // render using Twig
-        $renderedOpf = $this->twig->render('OEBPS/' . $fileToRender . '.html', array('epub' => $this->book));
+        $renderedOpf = $this->twig->render('OEBPS/' . $fileToRender . '.html', array('book' => $this->book));
         // write the rendered content into a file
         $result      = file_put_contents($oebpsFilesPath . '/' . $fileToRender, $renderedOpf);
 
