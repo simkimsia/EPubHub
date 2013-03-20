@@ -203,13 +203,12 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
     {
         $filename = 'mimetype';
 
-        $oebpsFilesPath = $sourceFilesPath . '/OEBPS';
-        if (!file_exists($oebpsFilesPath))
+        if (!file_exists($sourceFilesPath))
         {
-            mkdir($oebpsFilesPath);
+            mkdir($sourceFilesPath);
         }
 
-        $result = copy ( $this->twigBookTypeTemplatePath . '/' . $filename, $oebpsFilesPath . '/' . $filename);
+        $result = copy ( $this->twigBookTypeTemplatePath . '/' . $filename, $sourceFilesPath . '/' . $filename);
 
         return $result;
     }
