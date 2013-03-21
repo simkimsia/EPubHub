@@ -139,7 +139,8 @@ class EPubHub_RenderingLibrary_Twig implements EPubHub_RenderingLibraryInterface
      */
     public function renderImages($sourceFilesPath = '')
     {
-        $images = $this->book->getImages();
+        $imageCollections = $this->book->getImages();
+        $images = $imageCollections->getValues();
 
         $imagesFolderPath = $sourceFilesPath . '/OEBPS/Images';
         if (!file_exists($imagesFolderPath))

@@ -111,4 +111,9 @@ class EPubHub_ImageCollection implements Iterator
         }
     }
 
+    public function getValues()
+    {
+        return $this->images;
+    }
+
 }
