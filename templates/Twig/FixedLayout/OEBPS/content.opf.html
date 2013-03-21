@@ -44,17 +44,15 @@
 
     {% for page in book.pages %}
 
-        {% if book.front_cover is not null and book.front_cover.name == page.image.name %}
-
-        <reference href="Pages/{{ page.id }}.xhtml" type="cover"/>
-
-        {% else %}
-
         <reference href="Pages/{{ page.id }}.xhtml" type="text"/>
 
-        {% endif %}
-
     {% endfor %}
+
+    {% if book.front_cover is not null %}
+
+        <reference href="Images/{{ book.front_cover.name}}" type="cover" />
+
+    {% endif %}
 
     </guide>
 </package>
