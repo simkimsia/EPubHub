@@ -205,6 +205,8 @@ class EPubHub_Book_FixedLayout implements EPubHub_BookInterface
             $id = $this->makeDefaultPageId();
             $page->setId($id);
         }
+        $page->setWidth($this->getWidth);
+        $page->setHeight($this->getHeight);
         $result       = $this->pages->add($page, $index);
         $this->updateImages();
         return $result;
