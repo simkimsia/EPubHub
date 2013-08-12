@@ -62,7 +62,7 @@ class EPubHub_Image_FixedLayout implements EPubHub_ImageInterface
         $this->channels = $imageSize['channels'];
         $this->bits = $imageSize['bits'];
 
-        if (!in_array($mime_type, $this->approvedMimes))
+        if (!in_array($this->mime, $this->approvedMimes))
         {
             // throw exception
         }
